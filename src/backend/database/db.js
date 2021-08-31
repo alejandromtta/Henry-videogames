@@ -1,4 +1,4 @@
-//let genres =require('../controllers/genres.json')
+let genres =require('../controllers/genres.json')
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('postgres://postgres:veigar93@localhost:5432/videogames')
@@ -38,7 +38,7 @@ Genres.init({
     name: {
         type: Sequelize.STRING
     },
-    slug: {
+    nameSlug: {
         type: Sequelize.STRING
     }
 }, {
@@ -88,14 +88,14 @@ let UpdateDb = (data) => {
 
 let DbDataGames = VideoGames.findAll({
     include: [Genres],
-    attribute: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img']
+    attributes: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img']
 }).then(function (result) {
     let DbGet = JSON.stringify(result)
     return DbGet
 })
 
 let DbDataGenres = Genres.findAll({
-    attribute: ['id', 'name', 'slug']
+    attributes: ['id', 'name', 'nameSlug']
 }).then(function (result) {
     let DbGet = JSON.stringify(result)
     return DbGet
@@ -110,14 +110,15 @@ module.exports = {
 }
 
 
-//ingresar los genrers a la db 
+// sequelize.sync({
+//     force: true
+// }).then(async () => {
 // for(let datas of genres) {
 
 //     let  TA = await Genres.create({
 //            name: datas.name,
-//          slug: datas.slug
+//          nameSlug: datas.slug
 //         })
 
 
-
-//    }
+//    }})

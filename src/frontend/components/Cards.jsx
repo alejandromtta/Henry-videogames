@@ -5,11 +5,14 @@ export default function Cards ({state}) {
     console.log('uwu', state)
     if(state){
        return(<div>{ state.map(e => {
-       return (<Card 
-              img={e.img}
-              name={e.name}
-              genres={e.genres} />
-       )
+           if(e.name){
+            return (<Card 
+                img={e.img}
+                name={e.name}
+                genres={e.genres} />
+         )
+           }
+       
     })}</div>) 
     } else {
         return (
