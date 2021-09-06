@@ -26,7 +26,10 @@ VideoGames.init({
     },
     platforms: {
         type: Sequelize.STRING
-    }
+    },
+    isCreated:{
+        type: Sequelize.BOOLEAN
+    },
 }, {
     sequelize,
     modelName: 'VideoGames'
@@ -56,7 +59,7 @@ Genres.belongsToMany(VideoGames, {
 
 let UpdateDb = (data) => {
     sequelize.sync({
-        alter: true
+        force: true
     }).then(async () => {
 
         let NewVideoGame = await VideoGames.create({
@@ -67,6 +70,7 @@ let UpdateDb = (data) => {
             rating: data.rating,
             platforms: data.platform,
             releaseData: data.releaseData,
+            isCreated: true
 
         })
         for (let i = 0; i < data.genres.length; i++) {
@@ -88,7 +92,7 @@ let UpdateDb = (data) => {
 
 let DbDataGames = VideoGames.findAll({
     include: [Genres],
-    attributes: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img']
+    attributes: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img',"isCreated"]
 }).then(function (result) {
     let DbGet = JSON.stringify(result)
     return DbGet
