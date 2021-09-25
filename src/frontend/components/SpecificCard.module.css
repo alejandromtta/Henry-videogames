@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap');
+
+.mainDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: inter;
+    background:rgb(10, 10, 10);
+    color: rgb(251, 251, 251);
+    width: 100%;
+    height: 100%;
+    padding-top: 22px;
+
+}
+.description{ 
+    width: 40%;
+}
+.mainDiv h3{
+    margin-bottom: 1%;
+}
+.mainDiv p {
+
+margin-top:1%;
+}
+.footer {
+    padding-top: 20px;
+    height: 100%;
+    width: 100%;
+    background: rgb(10, 10, 10);
+}

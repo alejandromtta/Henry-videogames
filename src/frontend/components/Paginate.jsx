@@ -1,5 +1,5 @@
 import React from "react";
-
+import style from "./Paginate.module.css"
 
 function Pagination({ countriesPerPage, totalCountries, paginate }) {
   const pageNumbers = [];
@@ -8,10 +8,10 @@ function Pagination({ countriesPerPage, totalCountries, paginate }) {
   }
 
   return (
-    <nav>
+    <nav className={style.container}> 
       {pageNumbers &&
         pageNumbers.map((el, i) => {
-          return <div key={i}><button onClick={() => paginate(el)}>{el}</button></div>;
+          return <div className={style.subContainer}key={i}><button onClick={() => paginate(el)}>{el}</button></div>;
         })}
     </nav>
   );

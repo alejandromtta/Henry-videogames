@@ -1,4 +1,4 @@
-let genres =require('../controllers/genres.json')
+let genres = require('../controllers/genres.json')
 const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('postgres://postgres:veigar93@localhost:5432/videogames')
@@ -27,8 +27,8 @@ VideoGames.init({
     platforms: {
         type: Sequelize.STRING
     },
-    isCreated:{
-        type: Sequelize.BOOLEAN
+    isCreated: {
+        type: Sequelize.STRING
     },
 }, {
     sequelize,
@@ -59,16 +59,16 @@ Genres.belongsToMany(VideoGames, {
 
 let UpdateDb = (data) => {
     sequelize.sync({
-        force: true
+        alter: true
     }).then(async () => {
-
+        console.log(data)
         let NewVideoGame = await VideoGames.create({
-            nameSlug: data.slug,
+            nameSlug: data.nameSlug,
             name: data.name,
             description: data.description,
             img: data.img,
             rating: data.rating,
-            platforms: data.platform,
+            platforms: data.platforms,
             releaseData: data.releaseData,
             isCreated: true
 
@@ -77,11 +77,9 @@ let UpdateDb = (data) => {
 
             let genrer = await Genres.findOne({
                 where: {
-                    id: data.genres[i]
+                    nameSlug: data.genres[i]
                 }
             })
-            console.log(genrer)
-
 
             await genrer.addVideoGames(NewVideoGame);
 
@@ -92,7 +90,7 @@ let UpdateDb = (data) => {
 
 let DbDataGames = VideoGames.findAll({
     include: [Genres],
-    attributes: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img',"isCreated"]
+    attributes: ['id', 'name', 'description', 'nameSlug', 'rating', 'platforms', 'img', "isCreated"]
 }).then(function (result) {
     let DbGet = JSON.stringify(result)
     return DbGet

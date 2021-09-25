@@ -1,10 +1,11 @@
 import Card from "./Card.jsx"
-
+import style from "./Cards.module.css"
 
 export default function Cards ({state}) {
     console.log(state)
     if(state[0] !== {error: "VideoGame not found"} && state[0]){
-       return(<div>{ state.map((e, i) => {
+       return(<div className={style.container}>
+       <div className={style.parent}>{ state.map((e, i) => {
            if(e.name){
             return (<div key={i}><Card 
                 slugName={e.nameSlug}
@@ -18,7 +19,7 @@ export default function Cards ({state}) {
                return <div key={i}><p>error</p></div>;
            }
        
-    })}</div>) 
+    })}</div></div>) 
     } else {
         return (
             <div>
