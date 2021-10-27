@@ -12,7 +12,7 @@ export default function Form(){
     const genres= useSelector((state) => state.genres);
     useEffect( () => {
         dispatch(getGenres());
-    }, [])
+    }, [dispatch])
 console.log(state)
 
     const onChangeOptions = (e) => {

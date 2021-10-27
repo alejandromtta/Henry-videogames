@@ -1,6 +1,6 @@
 import Cards from "./Cards"
 import footer from "./img/footer.png"
-import {getVideogames} from "../Redux/actions/actions"
+import {getVideogames,getDbVideogames} from "../Redux/actions/actions"
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
@@ -8,23 +8,29 @@ import Pagination from "./Paginate";
 import style from "./HomePage.module.css";
 export default function HomePage(){
     const dispatch = useDispatch();
-    const videogames = useSelector((state) => state.videogames);
+    let videogames = useSelector((state) => state.videogames);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [countriesPerPage] = useState(15);
     const indexOfLastCountry = currentPage * countriesPerPage;
     const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
-    const  currentVideogames=
+  
+    let currentVideogames=
       videogames.length > 0
         ? videogames.slice(indexOfFirstCountry, indexOfLastCountry)
         : [];
-    useEffect( () => {
-        dispatch(getVideogames());
-     }, []);
+    useEffect(  () => {
+      async function asyncr (){
+        dispatch( await getVideogames());
+        dispatch( await getDbVideogames());
+      }
+        asyncr();
+     }, [dispatch]);
 
      function renderPage(pageNumber) {
         setCurrentPage(pageNumber);
       }
-
+console.log(videogames)
 //     let route = "http://localhost:3000/videogames"
 // let onSearch = (data)=>{
 //        if(data){
@@ -38,8 +44,8 @@ export default function HomePage(){
 //        })
 //     }
 // }
-
-return(<div clasName={style.mainDiv}>
+currentVideogames = currentVideogames?.reverse()
+return(<div className={style.mainDiv}>
     <SearchBar/>
     <Cards state={currentVideogames}/>
     <Pagination

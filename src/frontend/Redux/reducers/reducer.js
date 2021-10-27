@@ -4,12 +4,14 @@ import {
     GET_VIDEOGAMES_NAME,
     ORDER_GENRES,
     ORDER_VIDEOGAMES,
-    GET_ORIGINAL_FILTER
+    GET_ORIGINAL_FILTER,
+    GET_DBVIDEOGAMES
 } from "../actions/actions";
 
 const initialState = {
     videogames: [],
-    genres: []
+    genres: [],
+    dbVideogames: []
 };
 
 export default function reducer(state = initialState, action) {
@@ -48,6 +50,11 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 videogames: action.payload
+            }
+        }  case  GET_DBVIDEOGAMES: {
+            return{
+                ...state,
+                dbVideogames:action.payload
             }
         }
         default: {

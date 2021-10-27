@@ -17,7 +17,8 @@ router.get('/', function (req, res) {
         Welcome: "this api have Video Games route, Genres Route,search route by id param and name param."
     })
 })
-router.get('/videogames', async function (req, res) {
+
+router.get("/dbVideogames", async function (req, res){
     let dbgames = await DbDataGames
     dbgames = JSON.parse(dbgames)
     dbgames = dbgames.map(function (e) {
@@ -36,13 +37,9 @@ router.get('/videogames', async function (req, res) {
             return e;
         }
     })
-    Games = Games.concat(dbgames)
-
-    if (Games[Games.length - 1].name === Games[Games.length - 2].name) {
-        Games[Games.length - 1] = undefined;
-    }
-    Games = Games.filter(Boolean)
-
+    res.status(200).json(dbgames)
+})
+router.get('/videogames', async function (req, res) {
 
     let name = req.query.name;
     let id = req.query.id;

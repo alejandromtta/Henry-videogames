@@ -12,7 +12,7 @@ export default function SearchBar({onSearch}) {
       });
     useEffect(() => {
         dispatch(getGenres());
-    }, [])
+    }, [dispatch])
 
    function handleFilter(e){
     let value = e.target.value;

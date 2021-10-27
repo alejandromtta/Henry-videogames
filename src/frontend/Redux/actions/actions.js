@@ -9,13 +9,31 @@ export const ORDER_GENRES = "ORDER_GENRES";
 export const ORDER_VIDEOGAMES = "ORDER_VIDEOGAMES";
 export const GET_VIDEOGAMES_NAME = "GET_VIDEOGAMES_NAME"
 export const GET_ORIGINAL_FILTER = "GET_ORIGINAL_FILTER"
+export const GET_DBVIDEOGAMES = "GET_DBVIDEOGAMES"
 
+
+export function getDbVideogames(){
+    let route = "http://localhost:3000"
+    return async function (dispatch){
+       let result = await axios.get(route + "/dbvideogames")
+       result = result.data
+       dispatch({
+           type: GET_DBVIDEOGAMES,
+           payload: result?
+           result
+           :
+           []
+       })
+    }
+}
 export function getOriginalFilter(data) {
-    let route = "http://localhost:3000/videogames"
+    let route = "http://localhost:3000"
+
     return async function (dispatch) {
-        let result = await axios.get(route);
+        let result = await axios.get(route + "/dbvideogames");
         result = result.data
-        let originalResult = result;
+        let originalResult = await axios.get(route + "/videogames");
+        originalResult = originalResult.data
         dispatch({
             type: ORDER_VIDEOGAMES,
             payload: secondSort(data, result, originalResult)
@@ -48,14 +66,15 @@ export function orderGenres(name) {
 
             let filter;
             filter = result.filter(data => {
-
-
                 if (data.id) {
                     let comprobar = data.genres.find(e => e.nameSlug === name)
-                    console.log(data)
                     if (comprobar) {
                         return data
+                    } else {
+                        return []
                     }
+                } else {
+                    return []
                 }
 
             })
@@ -95,9 +114,16 @@ export function getGamesByName(state, name) {
     if (state && name) {
         if (state[0]) {
             let newState = state.map(e => {
-                if (e.name === name) {
-                    return e.nameSlug;
+                if (e) {
+                    if (e.name === name) {
+                        return e.nameSlug;
+                    } else {
+                        return []
+                    }
+                } else {
+                    return []
                 }
+
             })
 
             if (newState) newState = newState.filter(Boolean)
